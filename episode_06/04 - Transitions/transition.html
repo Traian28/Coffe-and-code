@@ -1,0 +1,46 @@
+<html>
+<head>
+	<script src="http://d3js.org/d3.v3.min.js"></script>
+</head>
+<body>
+	<div id="viz"></div>
+
+	<script>
+	d3.select("body").style("background-color","#d5e1a3");
+
+	// create a canvas and append a svg circle.
+
+	var svgCircle = d3.select("#viz").append("svg")
+	 .attr("width", 600) .attr("height", 800);
+
+	var circle = svgCircle.append("circle").style("stroke", "gray").style("fill", "white").attr("r", 40)
+	 .attr("cx", 50)
+	  .attr("cy", 50);
+
+	// move the circle to the right
+	// circle.transition()
+	// 	.attr("cx", 150)
+	// 	.transition()
+	// 	.attr("cy", 150);
+
+	// duration, delay
+	// circle.transition()
+	// 	.attr("cx", 150)
+	// 	.delay(2000)
+	// 	.duration(2000);
+
+	// change color after transition
+	circle.transition()
+		.attr("cx", 250)
+		.duration(1000)
+		.each("end",function(){ d3.select(this).transition().duration(4000).style("fill","#00FF00"); });
+
+	// change color during transition
+	circle.transition()
+		.attr("cx", 250)
+		.duration(1000)
+		.each(function(){ d3.select('circle').transition().duration(4000).style("fill","#FF8000"); });
+
+    </script>
+</body>
+</html>

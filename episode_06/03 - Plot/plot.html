@@ -1,0 +1,97 @@
+<HTML>
+<HEAD>
+ <link rel="stylesheet" type="text/css" href="lab1.css">
+ <script type="text/javascript">
+ function processClick() {
+   var buttonValue = document.getElementById('clickButton1').value;
+   alert(buttonValue);
+ }
+ </script>
+ <script src="http://d3js.org/d3.v3.min.js"></script>
+</HEAD>
+
+
+<BODY>
+<div id="viz"></div>
+<script type="text/javascript">
+
+var data = [[40,26],[69,37],[69,19],[42,34],[36,33]];
+var data2 = [[12,23],[34,28],[33,23],[32,40],[16,28]];
+
+var margin = {top: 20, right: 20, bottom: 60, left: 60},
+  width = 760 - margin.left - margin.right,
+  height = 500 - margin.top - margin.bottom;
+
+var chart = d3.select('body')
+ .append('svg')
+ .attr('width', width + margin.right + margin.left)
+ .attr('height', height + margin.top + margin.bottom)
+ .attr('class', 'chart');
+
+var main = chart.append('g')
+ .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')')
+ .attr('width', width)
+ .attr('height', height)
+ .attr('class', 'main');
+
+// draw the x axis
+var x = d3.scale.linear()
+  .domain([0, 100])
+  .range([ 0, width ]);
+var xAxis = d3.svg.axis().scale(x).orient('bottom');
+main.append('g')
+ .attr('transform', 'translate(0,' + height + ')')
+ .attr('class', 'main axis date')
+ .call(xAxis);
+
+// draw the y axis
+var y = d3.scale.linear()
+  .domain([0, d3.max(data2, function(d) { return d[1]; })])
+  .range([ height, 0 ]);
+var yAxis = d3.svg.axis().scale(y).orient('left');
+main.append('g')
+ .attr('transform', 'translate(0,0)')
+ .attr('class', 'main axis date')
+ .call(yAxis);
+
+var g = main.append("svg:g");
+g.selectAll("dots")
+ .data(data)
+ .enter().append("svg:circle")
+ .attr("cx", function (d) { return x(d[0]); } )
+ .attr("cy", function (d) { return y(d[1]); } )
+ .attr("r", 10);
+
+var red = d3.rgb(255, 0, 0);
+g.selectAll("dots")
+ .data(data2)
+ .enter().append("svg:circle")
+ .attr("cx", function (d) { return x(d[0]); } )
+ .attr("cy", function (d) { return y(d[1]); } )
+ .attr("r", 10)
+ .style("fill", red)
+ .style("opacity", 0.6) // opacity of circle
+ .on("mouseover", function(d) {
+    d3.select(this).style("fill", "orange");
+    d3.select(this).attr("r", 20)
+ })
+ .on("mouseout", function(d) {
+   d3.select(this).style("fill", red);
+   d3.select(this).attr("r", 10);
+ });
+
+ // text label for the x axis
+ g.append("text")
+  .attr("x", 330 ).attr("y", 460 ).style("text-anchor", "middle").text("Winners");
+
+ // text label for the y axis
+ g.append("text")
+ .attr("x", -45 ).attr("y", 230 ).style("text-anchor", "middle").text("Errors");
+
+ // animation
+ d3.selectAll("circle").transition().duration(1500).style("fill", "green");
+</script>
+</BODY>
+
+
+</HTML>

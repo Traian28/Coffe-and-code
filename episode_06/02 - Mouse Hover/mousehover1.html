@@ -1,0 +1,29 @@
+<html>
+
+<head>
+  <script src="http://d3js.org/d3.v3.min.js"></script>
+</head>
+
+
+<BODY>
+<div id="viz"></div>
+<script type="text/javascript">
+
+// Control a document object by d3 selector
+
+var svgCircle = d3.select("#viz")
+  .append("svg")
+  .attr("width", 200)
+  .attr("height", 200);
+svgCircle.append("circle")
+  .style("stroke", "gray")
+  .style("fill", "white")
+  .attr("r", 40)
+  .attr("cx", 50)
+  .attr("cy", 50)
+  .on("mouseover", function(){d3.select(this).style("fill", "blue");} )
+  .on("mouseout", function(){d3.select(this).style("fill", "white");} );
+</script>
+</BODY>
+
+</html>
